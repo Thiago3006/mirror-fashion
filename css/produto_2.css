@@ -1,0 +1,256 @@
+/* Desenhar as bolinhas coloridas com pseudo-elementos css usando um truque com bordas redondas grandes */
+.cores label:after {
+    content: '';
+    display: block;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    /* repare como a borda da bolinha selecionada aumenta o tamanho total da bolinha por causa do box model padrão.
+    uma solução é trocar o box model com a propriedade box-sizing. */
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+    /* implementar o posicionamento correto das bolinhas lado a lado. Use position:absolute já que seus tamanhos são conhecidos */
+    position: absolute;
+    /* cada bolinha é um label:after, basta posicioná-las absolutamento */
+    top: 30px;
+    /*use transition para fazer a borda aparecer suavemente, como um fadein.*/
+    border: 6px solid rgba(0,0,0,0);
+    transition: 1s;
+}
+
+label[for=verde]:after {
+    background-color: #33cc66;
+    /* As bolinhas ficaram sobrepostas na esquerda. Para corrigir, basta colocar uma coordenada left diferente para cada uma: */
+    left: 0;
+}
+
+label[for=rosa]:after {
+    background-color: #ff6666;
+    /* As bolinhas ficaram sobrepostas na esquerda. Para corrigir, basta colocar uma coordenada left diferente para cada uma: */
+    left: 60px;
+}   
+
+label[for=azul]:after {
+    background-color: #6666ff;
+    /* As bolinhas ficaram sobrepostas na esquerda. Para corrigir, basta colocar uma coordenada left diferente para cada uma: */
+    left: 120px;
+}
+
+/* estilizar a bolinha atualmente selecionada usando o pseudo-classe: checked: */
+.cores input:checked + label:after {
+    border: 6px solid rgba(0,0,0,0.3)
+}
+
+/* Esconda a bolinha do input radio */
+.cores input[type=radio] {
+    display: none;
+}
+
+/* esconder as imagens dos radios não selecionados. */
+.cores input:not(:checked) + label img {
+    display: none;
+}
+
+/* As bolinhas bão ser posicionadas com relação ao fieldset cores, então ele precisa estar posicionado.
+O padding superiror é para abrir espaço para as bolinhas.*/
+.cores {
+    position: relative;
+    padding-top: 90px;
+}
+
+/*correção do legend leia a página 151 da apostila */
+.cores legend {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/*adaptação da imagem ao tamanho da tela. */
+.cores label img {
+    display: block;
+    max-width: 100%;
+}
+
+/* consertando o Bug do firefox, página 152. */
+/*@media (min--moz-device-pixel-ratio:0) {
+    fieldset {
+        display: table-column;
+    }
+}
+
+ se estiver desenvolvendo para fire fox coloque no começo do aplicativo. */
+
+ /*Estilizar detalhes visuais, espaçamento para toda página de produtos.*/
+ .produto {
+     color: #333;
+     line-height:1.3;
+     margin-top: 2em;
+ }
+
+ /*nome do produto e preço também ganham estilo*/
+ .produto h1 {
+     font-size: 1.8em;
+     font-weight: bold;
+ }
+
+ .produto p {
+     font-size: 1.2em;
+     font-style: italic;
+     margin-bottom: 1em;
+ }
+
+ /* o <legend> ganha destaque*/
+
+ .produto legend {
+     display: block;
+     font: bold 0.9em/2.5 Arial;
+     text-transform: uppercase;
+ }
+
+ /* o botão de comprar deve ficar em evidência.*/
+ .comprar {
+     background:#91bd3c;
+     border: none;
+     color: #333;
+     font-size: 1.4em;
+     text-transform: uppercase;
+     box-shadow: 0 1px 3px #777;
+     display: block;
+     padding: 0.5em 1em;
+     margin: 1em 0;
+ }
+
+ /*adiciona um estilo para quando passar o mouse em cima, mostre uma borda de leve.*/
+ .cores label:hover:after {
+     border: 6px solid rgba(0,0,0,0.1);
+ }
+
+ /*adicione o media query para disparar em  telas maiores.*/
+ @media (min-width: 630px) {
+    .produto {
+        /* a foto vai se posicionar absolutamente com relação a esse elemento, por isso preciso estar posicionado */
+        position: relative;
+        /* deixo 40% de espaça em branco na esquerda para foto ocupar */
+        padding-left: 40%;
+        /* aumentar um pouco o tamanho das fontes usadas no produto.*/
+        font-size: 1.2em;
+        
+    }
+
+    .cores {
+        /* eu era relative antes; reinicio para static para evitar que a foto se posicione com relação a mim */
+        position: static;
+        /* reinicio meu padding-top que tinha antes e não preciso mais */
+        padding: 0;
+    }
+
+    .cores legend {
+        /* eu era absolute antes, para ter o mesmo comportamento no Chrome e no Firefox; agora quero ao fluxo da página */
+        position: static;
+    }
+
+    .cores label img {
+        /* imagem se posiciona absolutamente á esquerda com relação ao .produto 
+        Para evitar que a imagem vaze para fora do espaço que lhe foi determinado vamos usar max-width e max-height*/
+        position: absolute;
+        top: 0;
+        left: 0;
+        max-width: 35%;
+        max-height: 100%;
+    }
+
+    .cores label:after {
+        /* as bolinhas coloridas tinham posição absoluta.
+        não precisamos mais, basta flutuar uma do lado da outra */
+        position: static;
+        float: left;
+        /* margem entre as bolinhas coloridas*/
+        margin-right: 10px
+    }
+
+    /*Posicionar o range lado a lado.*/
+    fieldset {
+        display: inline-block;
+        vertical-align: top;
+
+        margin: 1em 0;
+        min-width: 200px;
+        width: 45%;
+    }
+}   
+
+/*estilizar o texto.*/
+.detalhes {
+    padding: 2em 0;
+}
+
+.detalhes h2 {
+    font-size: 1.5em;
+    line-height: 2;
+}
+
+.detalhes p {
+    margin: 1em 0;
+    font-size: 1em;
+    line-height: 1.5;
+    max-width: 36em;
+}
+
+@media ( min-width: 500px) {
+    .detalhes {
+        font-size: 1.2em;
+    }
+}
+
+/* Estilizar a tabela.*/
+table {
+    border-spacing: 0.2em;
+    border-collapse: separete;
+}
+
+thead {
+    background-color:  #999;
+}
+
+thead th {
+    font-weight: bold;
+    padding: 0.3em 1em;
+    text-align: center;
+}
+
+td {
+    padding: 0.3em;
+}
+
+tr:nth-child(2n) {
+    background-color: #ccc;
+}
+
+td:first-child {
+    font-style: italic;
+}
+
+/* Estilizar o fundo da tela.*/
+.produto-back {
+    background-color: #F2F2F2;
+    margin-top: 1em;
+    border-top: 2px solid #CCC;
+}
+
+.cores label img {
+    border: 2px solid #ccc;
+}
+
+/* Estilizar o output dotamanho */
+.tamanhos output {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+
+    line-height: 30px;
+    text-align: center;
+
+    border: 3px solid #666;
+    border-radius: 50%;
+    color:#555;
+}
